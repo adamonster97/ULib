@@ -1,0 +1,28 @@
+import smtplib
+
+
+class GMailEmail:
+    def __init__(self, email_address, password):
+        self.address = email_address
+        self.pwd = password
+
+    def send_email(self, receiver, content, subject):
+
+        message = '''\From: %s\nTo: %s\nSubject: %s\n\n%s
+        ''' % (self.address, ', '.join(receiver), subject, content)
+        print(message)
+        try:
+            server = smtplib.SMTP('smtp.gmail.com', 587)
+            server.ehlo()
+            server.starttls()
+            server.login(self.address, self.password)
+            server.sendmail(self.address, receiver, content)
+            server.close()
+            print('successfully sent the mail')
+        except:
+            print('failed to send mail')
+
+
+
+a = GMailEmail('pytest321@gmail.com', 'pythontest')
+a.send_email('email', 'adamlerner731@gmail.com', 'subject')
